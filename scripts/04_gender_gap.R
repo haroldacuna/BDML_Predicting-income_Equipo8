@@ -7,46 +7,6 @@ p_load(tidyverse, # contiene las librerías ggplot, dplyr...
        httr, #Permite simular la llamada 
        jsonlite# Para manejar formato JSON
 ) 
-
-url <- "https://ignaciomsarmiento.github.io/GEIH2018_sample/"
-
-links <- read_html(url) %>% html_nodes(xpath="/html/body/div/div/div[2]/ul") %>%
-  html_nodes("a") %>%
-  html_attr("href")
-
-links_pags <- paste0(url, links)
-
-l1  <- data.frame(links_pags)
-
-url_pag <- c()
-
-for (i in 1:10){
-  urli <- paste0("https://ignaciomsarmiento.github.io/GEIH2018_sample/pages/geih_page_", i , ".html")
-  url_pag <- c(url_pag,urli)
-}
-
-GEIH <- c()
-
-for (i in 1:10){
-  gyh <- url_pag[i] %>%
-    read_html() %>% 
-    html_table()
-  
-  GEIH[[i]] <- gyh[[1]]  
-}
-
-# Concatenar todas las tablas en un solo dataframe
-GEIH_df <- bind_rows(GEIH)
-
-
-
-dff <- data.frame(GEIH)
-write.csv(GEIH_df , "datos_taller1.csv", row.names = FALSE, sep = ";")
-
-
-###############################################################################  
-#-------------------------------punto 4---------------------------------------#
-
 ####################### PASO # 1 FILTAR LOS DATOS ##############################
 
 # Instalar y cargar paquetes necesarios
